@@ -65,8 +65,9 @@ const Login = () => {
     <div className='h-screen flex items-center justify-center'>
       <div
         className={`dark:bg-[#1C1C24] dark:border-none bg-white border
-         z-10  mx-auto w-[556px] mobile:w-[327px] rounded-lg flex flex-col px-[60px] py-[50px] mobile:px-[38px]`}
+        z-10  mx-auto w-[556px] mobile:w-[327px] rounded-lg flex flex-col px-[60px] py-[50px] mobile:px-[38px]`}
       >
+        <h1 className='text-2xl font-bold mx-auto dark:text-white'>Admin login</h1>
         <form autoComplete='false' onSubmit={handleSubmit(onSubmit)} className='mt-[20px] '>
           <Input
             inputPassword={false}

@@ -25,8 +25,9 @@ const Users = () => {
     deleteMutation.mutate(user)
   }
   return (
-    <div className='flex flex-col gap-[30px]'>
-      <div className='relative overflow-x-auto shadow-md sm:rounded-lg'>
+    <div className='p-5'>
+      <h1 className='mb-3  text-2xl font-bold dark:text-white'>Danh sách người dùng đăng ký</h1>
+      <div className='relative rounded-md overflow-x-auto shadow-md sm:rounded-lg'>
         {isLoading && (
           <div role='status' className='mx-auto'>
             <svg
@@ -52,16 +53,16 @@ const Users = () => {
           <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
             <tr>
               <th scope='col' className='px-6 py-3'>
-                User Name
-              </th>
-              <th scope='col' className='px-6 py-3'>
                 Id
               </th>
               <th scope='col' className='px-6 py-3'>
-                Role
+                Họ và tên
               </th>
               <th scope='col' className='px-6 py-3'>
-                Action
+                Loại
+              </th>
+              <th scope='col' className='px-6 py-3'>
+                Hành động
               </th>
             </tr>
           </thead>
@@ -73,17 +74,26 @@ const Users = () => {
                   key={item._id}
                   className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
                 >
+                  <td className='px-6 py-4'>{item._id}</td>
                   <th scope='row' className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
                     {item.name}
                   </th>
-                  <td className='px-6 py-4'>{item._id}</td>
-                  <td className='px-6 py-4 capitalize'>{item.role}</td>
+                  <td className='px-6 py-4 '>{item.role === 'user' && 'Người mua'}</td>
                   <td className='px-6 py-4 flex gap-x-[10px]'>
                     <Link to={`/user-detail/${item._id}`} className=''>
-                      Thông tin
+                      <button className='relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"'>
+                        <span className='relative px-5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0'>
+                          Thông tin
+                        </span>
+                      </button>
                     </Link>{' '}
-                    <button className='text-red-300 hover:shadow-md' onClick={() => handleRemoveUser(item._id)}>
-                      Xoá
+                    <button
+                      onClick={() => handleRemoveUser(item._id)}
+                      className='relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800'
+                    >
+                      <span className='relative px-5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0'>
+                        Xoá
+                      </span>
                     </button>
                   </td>
                 </tr>

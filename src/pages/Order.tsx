@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { divide } from 'lodash'
+import Popover from '~/components/Popover/Popover'
+import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { getAllPurchases } from '~/apis/admin.api'
 import { changeStatusPurchase } from '~/apis/purchase.api'
@@ -11,6 +13,7 @@ import { getProfileFromLS } from '~/utils/auth'
 
 const Order = () => {
   const queryClient = useQueryClient()
+  const [toogle, setToogle] = useState(false)
   const profileAccessToken = getProfileFromLS()
   const { data: purchaseData, isLoading } = useQuery({
     queryKey: ['purchase-admin'],
@@ -25,23 +28,30 @@ const Order = () => {
       toast.success('Xác nhận gửi hàng thành công!')
     }
   })
-  const handleConfirm = (productId: string, purchaseId: string, status: number) => {
-    const body: any = { product_id: productId, purchase_id: purchaseId, status: status }
+  const handleConfirm = (productId: string, purchaseId: string, status: number, on_done = false) => {
+    const body: any = { product_id: productId, purchase_id: purchaseId, status: status, on_done }
     updatePurchaseMutation.mutate(body, {
       onSuccess: () => {
         queryClient.invalidateQueries(['purchase-admin'])
       }
     })
   }
-  console.log(purchasesForAllUser)
+  function getShortString(inputStr: string) {
+    let shortStr = inputStr.slice(0, 30)
+    if (shortStr.length < inputStr.length) {
+      shortStr += '...'
+    }
+    return shortStr
+  }
   return (
-    <>
-      <div className='flex flex-col gap-[30px]'>
-        <div className='relative overflow-x-auto shadow-md sm:rounded-lg'>
+    <div className='p-5'>
+      <h1 className='mb-3  text-2xl font-bold dark:text-white'>Danh sách đơn hàng</h1>
+      <div className='flex flex-col gap-[30px] rounded-md'>
+        <div className='relative overflow-hidden rounded-md shadow-md sm:rounded-lg'>
           <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
             <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
               <tr>
-                <th scope='col' className='px-6 py-3'>
+                <th scope='col' className='px-6 py-3 w-[300px]'>
                   Tên sản phẩm
                 </th>
                 <th scope='col' className='px-6 py-3'>
@@ -63,45 +73,153 @@ const Order = () => {
             </thead>
             {purchasesForAllUser?.length === 0 && <div>Khoong co san don hang nao</div>}
             {purchasesForAllUser && (
-              <tbody>
+              <tbody className='overflow-hidden'>
                 {purchasesForAllUser.map((item: any) => (
                   <tr
                     key={item._id}
                     className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
                   >
-                    <th scope='row' className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
-                      {item.product.name}
+                    <th scope='row' className=' px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
+                      <Popover
+                        renderPopover={
+                          <div className='border-pink-400 relative p-4 max-w-[400px] rounded-md border  bg-white text-sm shadow-md'>
+                            <div>{item.product.name}</div>
+                            <div className='flex gap-x-10 mt-5'>
+                              {item.product.image.map((item: string, index: number) => (
+                                <div key={index}>
+                                  <img src={item} alt='' />
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        }
+                        placement='bottom-start'
+                      >
+                        <Link to={`/product/${item.product._id}`}>{getShortString(item.product.name)}</Link>
+                      </Popover>
                     </th>
                     <th scope='row' className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
-                      {item.user.name}
+                      <Popover
+                        renderPopover={
+                          <div className='border-pink-400 relative p-4 max-w-[400px] rounded-md border  bg-white text-sm shadow-md'>
+                            <div className='flex gap-x-2 items-center mb-2'>
+                              <img
+                                className='w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500'
+                                src={item.user.avatar}
+                                alt='Bordered avatar'
+                              />
+                              <h2 className='font-[600] text-[16px]'>{item.user.name}</h2>
+                            </div>
+                            <div
+                              className='flex flex-col
+                            '
+                            >
+                              <span>Email: {item.user.email}</span>
+                              <span>Sđt: {item.user.phone}</span>
+                              <span>Địa chỉ: {item.user.address}</span>
+                            </div>
+                          </div>
+                        }
+                        placement='bottom-start'
+                      >
+                        <Link to={`/user-detail/${item.user._id}`}>{item.user.name}</Link>
+                      </Popover>
                     </th>
                     <td className='px-6 py-4'>{FormatNumber(item.product.price_after_discount * item.buy_count)}đ</td>
                     <td className='px-6 py-4'>
-                      {item?.status === 1 && <button>Chờ xác nhận</button>}
-                      {item?.status === 3 && <button>Chờ lấy hàng</button>}
-                      {item?.status === 2 && <button>Đang gửi</button>}
-                      {item?.status === 4 && <button>Đã nhận</button>}
+                      {item?.status === 1 && (
+                        <span className='bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300'>
+                          Chờ xác nhận
+                        </span>
+                      )}
+                      {item?.status === 3 && (
+                        <span className='bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300'>
+                          Chờ lấy hàng
+                        </span>
+                      )}
+                      {item?.status === 2 && (
+                        <span className='bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300'>
+                          Đang gửi hàng
+                        </span>
+                      )}
+                      {item?.status === 4 && (
+                        <span className='bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300'>
+                          Đã nhận hàng
+                        </span>
+                      )}
+                      {item?.status === 5 && (
+                        <span className='bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300'>
+                          Đã huỷ
+                        </span>
+                      )}
                     </td>
-                    <td className='px-6 py-4'>{item?.isPaid === true ? 'Đã thanh toán' : 'Chưa thanh toán'}</td>
+                    <td className={`px-6 py-4 ${item?.isPaid ? 'text-primary' : 'text-red-300'}`}>
+                      {item?.isPaid === true ? (
+                        <span className='bg-indigo-100 text-indigo-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-indigo-400 border border-indigo-400'>
+                          Đã thanh toán
+                        </span>
+                      ) : (
+                        <span className='bg-pink-100 text-pink-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-pink-400 border border-pink-400'>
+                          Chưa thanh toán
+                        </span>
+                      )}
+                    </td>
                     <td className='px-6 py-4 flex gap-x-[10px]'>
                       {item?.status === 1 && (
                         <button
                           onClick={() => handleConfirm(item?.product._id, item._id, purchasesStatus.inProgress)}
-                          className='text-red-300 hover:shadow-md'
+                          className='relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"'
                         >
-                          Nhận đơn
+                          <span className='relative px-5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0'>
+                            Nhận đơn
+                          </span>
                         </button>
                       )}
                       {item?.status === 3 && (
                         <button
                           onClick={() => handleConfirm(item?.product._id, item._id, purchasesStatus.waitForGetting)}
-                          className='text-red-300 hover:shadow-md'
+                          className='relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800'
                         >
-                          Gửi đi
+                          <span className='relative px-5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0'>
+                            Gửi đi
+                          </span>
                         </button>
                       )}
-                      {item?.status === 2 && <button className=''>Chờ nhận hàng</button>}
-                      {item?.status === 4 && <button className=''>Ẩn đi</button>}
+                      {/* {item?.status === 2 && <button className=''>Chờ nhận hàng</button>} */}
+                      {item?.status === 4 && item?.isPaid === false && (
+                        <button
+                          onClick={() => handleConfirm(item?.product._id, item._id, purchasesStatus.delivered, true)}
+                          className='text-red-300 hover:shadow-md'
+                        >
+                          Đã nhận tiền
+                        </button>
+                      )}
+                      {/* {item?.status === 4 && item?.isPaid === true && (
+                        <span className='bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300'>
+                          Xong
+                        </span>
+                      )} */}
+                      {item?.status === 5 && (
+                        <Popover
+                          renderPopover={
+                            <div className='relative border-pink-400 p-4 max-w-[400px] rounded-md border  bg-white text-sm shadow-md'>
+                              {item?.reasonCancel}
+                            </div>
+                          }
+                          placement='bottom'
+                        >
+                          <div>
+                            <button
+                              onClick={() => setToogle(!toogle)}
+                              className='relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800'
+                            >
+                              <span className='relative px-5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0'>
+                                Lý do huỷ
+                              </span>
+                            </button>
+                          </div>
+                        </Popover>
+                      )}
                     </td>
                   </tr>
                 ))}
@@ -109,6 +227,7 @@ const Order = () => {
             )}
           </table>
         </div>
+
         {isLoading && (
           <div role='status' className='mx-auto'>
             <svg
@@ -131,7 +250,7 @@ const Order = () => {
           </div>
         )}
       </div>
-    </>
+    </div>
   )
 }
 

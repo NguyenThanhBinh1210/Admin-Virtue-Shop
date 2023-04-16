@@ -27,6 +27,7 @@ const ProductAdd = () => {
     price_after_discount: 0
   }
   const [formState, setFormState] = useState<FormStateType>(initialFromState)
+
   const { data: categoriesData } = useQuery({
     queryKey: ['category'],
     queryFn: () => {
@@ -206,7 +207,13 @@ const ProductAdd = () => {
             placeholder='...'
           />
         </div>
-
+        <div className='flex gap-x-5'>
+          {formState.image.map((item, index) => (
+            <div key={index} className='w-[70px] '>
+              <img src={item} alt='' />
+            </div>
+          ))}
+        </div>
         <div className=''>
           <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-white' htmlFor='file_input'>
             Upload file
