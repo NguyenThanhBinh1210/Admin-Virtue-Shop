@@ -7,7 +7,7 @@ import FormData from 'form-data'
 const TempPage = () => {
   const initial = {
     name: '',
-    image: File
+    image: []
   }
 
   const [state, setState] = useState(initial)
@@ -19,7 +19,7 @@ const TempPage = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     const formData = new FormData()
     formData.append('name', state.name)
-    formData.append('avatar', state.image)
+    formData.append('avatar', state.image[0])
     e.preventDefault()
     mutation.mutate(formData)
   }
@@ -41,7 +41,7 @@ const TempPage = () => {
         multiple={false}
         onChange={(event) =>
           setState((prev: any) => {
-            return { ...prev, image: event.target.files[0] }
+            return { ...prev, image: event.target.files }
           })
         }
       />
