@@ -6,16 +6,14 @@ import http from '~/utils/http'
 export const AddCategory = (category?: Omit<Category, '_id'>) => http.post<Category>('/category/create', category)
 export const deleteCategory = (id: unknown) => http.delete(`/category/delete/${id}`)
 export const getCategory = (id: unknown) => http.get<Category>(`/category/get-details/${id}`)
-export const updateCategory = (id: unknown, params?: Omit<Category, '_id'>) =>
-  http.put<Category>(`/category/update/${id}`, params)
+export const updateCategory = (id: unknown, body: { name: string; parent_id: string }) =>
+  http.put<Category>(`/category/update/${id}`, body)
 
 // Product
 export const deleteProduct = (id: unknown) => http.delete(`/product/delete/${id}`)
-export const addProduct = (product?: Omit<Product, '_id' | 'createAt' | 'updatedAt'>) =>
-  http.post(`/product/create/`, product)
+export const addProduct = (product?: any) => http.post(`/product/create/`, product)
 export const getProduct = (id: unknown) => http.get<Product>(`/product/get-details/${id}`)
-export const updateProduct = (id: unknown, params?: Omit<Product, '_id'>) =>
-  http.put<Product>(`/product/update/${id}`, params)
+export const updateProduct = (id: unknown, params: any) => http.put<Product>(`/product/update/${id}`, params)
 
 // User
 export const getUsers = () => http.get('/user/getAll')

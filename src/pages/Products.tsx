@@ -9,6 +9,8 @@ import PaginateAdmin from '~/components/Pagination/Pagination'
 import { FormatNumber, FormatNumberK } from '~/hooks/useFormatNumber'
 import { QueryConfigS } from '~/hooks/useQueryConfig'
 import useQueryParams from '~/hooks/useQueryParams'
+import Popover from '~/components/Popover/Popover'
+import { getShortString } from '~/utils/utils'
 
 const Products = () => {
   const queryClient = useQueryClient()
@@ -61,7 +63,7 @@ const Products = () => {
                 <th scope='col' className='px-6 py-3'>
                   Số lượng còn
                 </th>
-                <th scope='col' className='px-6 py-3 text-center'>
+                <th scope='col' className='px-6 py-3 '>
                   Hành động
                 </th>
               </tr>
@@ -74,7 +76,23 @@ const Products = () => {
                     className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
                   >
                     <th scope='row' className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
-                      {item.name}
+                      <Popover
+                        renderPopover={
+                          <div className='border-pink-400 relative p-4 max-w-[400px] rounded-md border  bg-white text-sm shadow-md'>
+                            <div>{item.name}</div>
+                            <div className='flex gap-x-10 mt-5'>
+                              {item.image.map((item: string, index: number) => (
+                                <div key={index}>
+                                  <img src={item} alt='' />
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        }
+                        placement='bottom-start'
+                      >
+                        <Link to={`/product/${item._id}`}>{getShortString(item.name)}</Link>
+                      </Popover>
                     </th>
                     <th scope='row' className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
                       {item.category?.name}

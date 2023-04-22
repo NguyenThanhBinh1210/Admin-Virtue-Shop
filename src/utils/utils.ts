@@ -11,6 +11,14 @@ export function isAxiosUnprocessableEntityError(error: unknown) {
   return isAxiosError(error) && error.response?.status === HttpStatusCode.UnprocessableEntity
 }
 
+export function getShortString(inputStr: string) {
+  let shortStr = inputStr.slice(0, 30)
+  if (shortStr.length < inputStr.length) {
+    shortStr += '...'
+  }
+  return shortStr
+}
+
 export const isJsonString = (data: any) => {
   try {
     JSON.parse(data)

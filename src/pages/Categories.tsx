@@ -1,21 +1,24 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { deleteCategory } from '~/apis/admin.api'
-import { getCategories } from '~/apis/category.api'
+import { getAllCategory } from '~/apis/category.api'
+import TreeNode from '~/components/TreeNode/TreeNode'
 const Categories = () => {
   const queryClient = useQueryClient()
-  const { data: categoriesData, isLoading } = useQuery({
-    queryKey: ['category'],
+
+  const { data: categories, isLoading } = useQuery({
+    queryKey: ['categories'],
     queryFn: () => {
-      return getCategories()
+      const body = {}
+      return getAllCategory(body)
     }
   })
   const deleteMutation = useMutation({
     mutationFn: (id) => deleteCategory(id),
     onSuccess: () => {
       toast.success('Xoá thành công!')
-      queryClient.invalidateQueries({ queryKey: ['category'] })
+      queryClient.invalidateQueries({ queryKey: ['categories'] })
     }
   })
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -40,6 +43,9 @@ const Categories = () => {
                 <th scope='col' className='px-6 py-3'>
                   Hành động
                 </th>
+                <th scope='col' className=' py-3'>
+                  Danh mục con
+                </th>
               </tr>
             </thead>
             {isLoading && (
@@ -63,35 +69,10 @@ const Categories = () => {
                 <span className='sr-only'>Loading...</span>
               </div>
             )}
-            {categoriesData?.data.data && (
+            {categories?.data.data && (
               <tbody>
-                {categoriesData?.data.data.map((item) => (
-                  <tr
-                    key={item._id}
-                    className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
-                  >
-                    <td className='px-6 py-4'>{item._id}</td>
-                    <th scope='row' className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
-                      {item.name}
-                    </th>
-                    <td className='px-6 py-4 flex gap-x-[10px]'>
-                      <Link to={`/category/${item._id}`} className=''>
-                        <button className='relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"'>
-                          <span className='relative px-5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0'>
-                            Sửa
-                          </span>
-                        </button>
-                      </Link>{' '}
-                      <button
-                        onClick={() => handleRemoveCat(item._id)}
-                        className='relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800'
-                      >
-                        <span className='relative px-5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0'>
-                          Xoá
-                        </span>
-                      </button>
-                    </td>
-                  </tr>
+                {categories?.data.data.map((item: any) => (
+                  <TreeNode key={item.id} node={item} handleRemoveCat={handleRemoveCat} />
                 ))}
               </tbody>
             )}

@@ -5,17 +5,6 @@ interface BodyUpdateProfile extends Omit<User, '_id' | 'role' | 'createdAt' | 'u
   password?: string
   newPassword?: string
 }
-export const registerAccount = (body: {
-  name: string
-  email: string
-  password: string
-  confirmPassword: string
-  otp: string
-}) => http.post<AuthResponse>('/user/sign-up', body)
-
-export const verifyAccount = (body: { email: string }) => http.post('/user/send-otp', body)
-export const userResetPassword = (body: { email: string; otp: string; password: string }) =>
-  http.put('/user/reset-password', body)
 
 export const loginAccount = (body: { email: string; password: string }) =>
   http.post<AuthResponse>('/user/sign-in', body)

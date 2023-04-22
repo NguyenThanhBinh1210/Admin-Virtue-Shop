@@ -147,6 +147,7 @@ select {
 
 .custom-scrollbar::-webkit-scrollbar-track {
   background-color: #fafafa;
+  border-radius: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {

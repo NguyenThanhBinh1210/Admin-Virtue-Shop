@@ -29,7 +29,6 @@ const Dashboard = () => {
       }
     })
   const orderList = purchaseData?.data.data.filter((item: any) => item.status !== -1 && item.status !== 5).reverse()
-
   const orderLength = purchaseData?.data.data.filter((item: any) => item.status !== -1).length
 
   const totalPrice = purchasesForAllUser?.reduce((result: any, current: any) => {
@@ -205,7 +204,7 @@ const Dashboard = () => {
                   <th scope='row' className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
                     #{Math.ceil(index + Math.random() * 1000)}
                   </th>
-                  <td className='px-6 py-4'>{order.user.name}</td>
+                  <td className='px-6 py-4'>{order?.user?.name}</td>
                   <td className='px-6 py-4'>{FormatNumber(order.product.price_after_discount * order.buy_count)}đ</td>
                   <td className='px-6 py-4'>
                     {order?.status === 1 && (

@@ -1,16 +1,14 @@
 import axios, { type AxiosInstance } from 'axios'
 import omit from 'lodash/omit'
-import jwt_decode from 'jwt-decode'
 import { clearLS, getAccessTokenFromLS, setAccesTokenToLS, setProfileFromLS } from './auth'
-import { refreshToken } from 'src/apis/auth.api'
 class Http {
   instance: AxiosInstance
   private accessToken?: string
   constructor() {
     this.accessToken = getAccessTokenFromLS()
     this.instance = axios.create({
-      // baseURL: 'http://localhost:5000/api/',
-      baseURL: 'https://api-virtue-shop.onrender.com/api/',
+      baseURL: 'http://localhost:5000/api/',
+      // baseURL: 'https://api-virtue-shop.onrender.com/api/',
       timeout: 10000,
       headers: {
         'Content-Type': 'application/json'
@@ -19,17 +17,6 @@ class Http {
     this.instance.interceptors.request.use(
       async (config) => {
         if (this.accessToken) {
-          // const userDecode: { exp: number } = jwt_decode(this.accessToken)
-          // const timeout = userDecode?.exp
-          // const currentTime = Date.now()
-          // if (timeout < currentTime / 1000) {
-          //   const body: { refresh_token: string } = {
-          //     refresh_token: Cookies.get('refresh_token') as string
-          //   }
-          //   const data = await refreshToken(body)
-          //   config.headers['token'] = `Beare ${data?.data.data.access_token}`
-          //   return config
-          // }
           config.headers['token'] = `Beare ${this.accessToken}`
           return config
         }
@@ -54,15 +41,10 @@ class Http {
         } else if (url === '/user/log-out') {
           this.accessToken = ''
           clearLS()
-          // Cookies.remove('refresh_token')
         }
         return response
       },
       function (error) {
-        // if (error.response?.status !== 422) {
-        //   const message = error.message
-        //   console.log(message)
-        // }
         return Promise.reject(error)
       }
     )

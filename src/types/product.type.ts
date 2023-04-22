@@ -3,6 +3,7 @@ import { Category } from './category.type'
 export interface Product {
   name: string
   image: string[]
+  images: string[]
   price: number
   price_after_discount: number
   countInStock: number

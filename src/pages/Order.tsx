@@ -10,6 +10,7 @@ import { changeStatusPurchase } from '~/apis/purchase.api'
 import { purchasesStatus } from '~/constants/perchase'
 import { FormatNumber } from '~/hooks/useFormatNumber'
 import { getProfileFromLS } from '~/utils/auth'
+import { getShortString } from '~/utils/utils'
 
 const Order = () => {
   const queryClient = useQueryClient()
@@ -36,13 +37,7 @@ const Order = () => {
       }
     })
   }
-  function getShortString(inputStr: string) {
-    let shortStr = inputStr.slice(0, 30)
-    if (shortStr.length < inputStr.length) {
-      shortStr += '...'
-    }
-    return shortStr
-  }
+
   return (
     <div className='p-5'>
       <h1 className='mb-3  text-2xl font-bold dark:text-white'>Danh sách đơn hàng</h1>
@@ -114,9 +109,10 @@ const Order = () => {
                               className='flex flex-col
                             '
                             >
-                              <span>Email: {item.user.email}</span>
-                              <span>Sđt: {item.user.phone}</span>
-                              <span>Địa chỉ: {item.user.address}</span>
+                              <span>Email: {item.shippingAddress.fullName}</span>
+                              <span>Số điện thoại: {item.shippingAddress.phone}</span>
+                              <span>Thành phố: {item.shippingAddress.city}</span>
+                              <span>Địa chỉ: {item.shippingAddress.address}</span>
                             </div>
                           </div>
                         }
@@ -189,9 +185,11 @@ const Order = () => {
                       {item?.status === 4 && item?.isPaid === false && (
                         <button
                           onClick={() => handleConfirm(item?.product._id, item._id, purchasesStatus.delivered, true)}
-                          className='text-red-300 hover:shadow-md'
+                          className='relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800'
                         >
-                          Đã nhận tiền
+                          <span className='relative px-5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0'>
+                            Đã thanh toán
+                          </span>
                         </button>
                       )}
                       {/* {item?.status === 4 && item?.isPaid === true && (

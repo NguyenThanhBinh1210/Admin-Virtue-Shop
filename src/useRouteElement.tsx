@@ -12,6 +12,7 @@ import CategoryAdd from './pages/CategoryAdd'
 import Categories from './pages/Categories'
 import Users from './pages/Users'
 import UserDetail from './pages/UserDetail'
+import TempPage from './pages/TempPage'
 
 function ProtecedRoute() {
   const { isAuthenticated } = React.useContext(AppContext)
@@ -47,6 +48,14 @@ const useRouteElements = () => {
           element: (
             <AdminLayout>
               <Dashboard />
+            </AdminLayout>
+          )
+        },
+        {
+          path: '/temp',
+          element: (
+            <AdminLayout>
+              <TempPage />
             </AdminLayout>
           )
         },

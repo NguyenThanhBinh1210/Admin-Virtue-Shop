@@ -7,8 +7,8 @@ import { AppContext } from '~/contexts/app.context'
 import useDarkMode from '~/hooks/useDarkMode'
 
 const Header = () => {
-  const [showCategory, setShowCategory] = useState(false)
-  const [showProduct, setShowProduct] = useState(false)
+  const [showCategory, setShowCategory] = useState(true)
+  const [showProduct, setShowProduct] = useState(true)
   const [showMenu, setShowMenu] = useState(false)
   const { reset } = useContext(AppContext)
 
@@ -97,7 +97,7 @@ const Header = () => {
             <ul
               id='dropdown-example'
               className={` py-2 transition-all overflow-hidden space-y-2 ${
-                showCategory ? 'h-[0] py-0' : 'h-[100px] py-2'
+                showCategory ? 'h-[0] py-[0px]' : 'h-[100px] py-2'
               }`}
             >
               <li>
@@ -156,7 +156,7 @@ const Header = () => {
             <ul
               id='dropdown-example'
               className={` py-2 transition-all overflow-hidden space-y-2 ${
-                showProduct ? 'h-[0] py-0' : 'h-[100px] py-2'
+                showProduct ? 'h-[0] py-[0px]' : 'h-[100px] py-2'
               }`}
             >
               <li>

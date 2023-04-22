@@ -52,14 +52,6 @@ export default function Popover({
               exit={{ opacity: 0, transform: 'scale(0)' }}
               transition={{ duration: 0.2 }}
             >
-              <span
-                ref={arrowRef}
-                className='absolute z-10 translate-y-[-95%] border-[11px] border-x-transparent border-t-transparent border-b-white'
-                style={{
-                  left: middlewareData.arrow?.x,
-                  top: middlewareData.arrow?.y
-                }}
-              />
               {renderPopover}
             </motion.div>
           )}

@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { deleteUser, getUsers } from '~/apis/admin.api'
+import Popover from '~/components/Popover/Popover'
 
 const Users = () => {
   const queryClient = useQueryClient()
@@ -76,7 +77,31 @@ const Users = () => {
                 >
                   <td className='px-6 py-4'>{item._id}</td>
                   <th scope='row' className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
-                    {item.name}
+                    <Popover
+                      renderPopover={
+                        <div className='border-pink-400 relative p-4 max-w-[400px] rounded-md border  bg-white text-sm shadow-md'>
+                          <div className='flex gap-x-2 items-center mb-2'>
+                            <img
+                              className='w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500'
+                              src={item.avatar}
+                              alt='Bordered avatar'
+                            />
+                            <h2 className='font-[600] text-[16px]'>{item.name}</h2>
+                          </div>
+                          <div
+                            className='flex flex-col
+                            '
+                          >
+                            <span>Email: {item.email}</span>
+                            <span>Sđt: {item.phone}</span>
+                            <span>Địa chỉ: {item.address}</span>
+                          </div>
+                        </div>
+                      }
+                      placement='bottom-start'
+                    >
+                      <Link to={`/user-detail/${item._id}`}>{item.name}</Link>
+                    </Popover>
                   </th>
                   <td className='px-6 py-4 '>{item.role === 'user' && 'Người mua'}</td>
                   <td className='px-6 py-4 flex gap-x-[10px]'>
