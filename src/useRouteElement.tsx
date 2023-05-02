@@ -13,6 +13,7 @@ import Categories from './pages/Categories'
 import Users from './pages/Users'
 import UserDetail from './pages/UserDetail'
 import TempPage from './pages/TempPage'
+import Chats from './pages/Chats'
 
 function ProtecedRoute() {
   const { isAuthenticated } = React.useContext(AppContext)
@@ -130,11 +131,17 @@ const useRouteElements = () => {
               <UserDetail />
             </AdminLayout>
           )
+        },
+        {
+          path: '/chats',
+          element: (
+            <AdminLayout>
+              <Chats />
+            </AdminLayout>
+          )
         }
       ]
     }
-
-    // { path: 'team', element: <AboutPage /> }
   ])
 
   return routeElements

@@ -1,10 +1,12 @@
 import { useContext, useState } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { logout } from '~/apis/auth.api'
+import { getChatResults } from '~/apis/chat.api'
 import { AppContext } from '~/contexts/app.context'
 import useDarkMode from '~/hooks/useDarkMode'
+import { ChatType } from '~/types/chat.type'
 
 const Header = () => {
   const [showCategory, setShowCategory] = useState(true)
@@ -12,6 +14,13 @@ const Header = () => {
   const [showMenu, setShowMenu] = useState(false)
   const { reset } = useContext(AppContext)
 
+  const { data } = useQuery({
+    queryKey: ['chats'],
+    queryFn: () => {
+      return getChatResults()
+    }
+  })
+  const dataNotResult = data?.data.data.filter((item: ChatType) => !item.result).length
   const logOutMutation = useMutation({
     mutationFn: logout,
     onSuccess: () => {
@@ -179,7 +188,7 @@ const Header = () => {
           </li>
           <li>
             <Link
-              to=''
+              to='/chats'
               className='flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
             >
               <svg
@@ -194,7 +203,7 @@ const Header = () => {
               </svg>
               <span className='flex-1 ml-3 whitespace-nowrap'>Inbox</span>
               <span className='inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300'>
-                3
+                {dataNotResult}
               </span>
             </Link>
           </li>

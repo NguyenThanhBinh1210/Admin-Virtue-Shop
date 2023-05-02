@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,7 +10,8 @@ import {
   Legend
 } from 'chart.js'
 import { Line } from 'react-chartjs-2'
-import { faker } from '@faker-js/faker'
+import { useQuery } from 'react-query'
+import { getMoneyByWeek } from '~/apis/purchase.api'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
@@ -28,18 +30,26 @@ export const options = {
 
 const labels = ['Mon', 'Tue', 'Wed', 'Wed', 'Fri', 'Sat', 'Sun']
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Doanh thu',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 7000 })),
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(255, 99, 132, 0.5)'
-    }
-  ]
-}
-
 export function Chart() {
+  const { data: money } = useQuery({
+    queryKey: ['get-money'],
+    queryFn: () => {
+      return getMoneyByWeek()
+    }
+  })
+  const moneyOnWeek = money?.data.data.map((item: any) => {
+    return item.price
+  })
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Doanh thu',
+        data: moneyOnWeek,
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.5)'
+      }
+    ]
+  }
   return <Line options={options} data={data} />
 }
