@@ -56,8 +56,8 @@ const Chats = () => {
   return (
     <div className='p-5 h-screen'>
       <h1 className='mb-5  text-2xl font-bold dark:text-white '>Quản lý chatbox tự động</h1>
-      <div className='grid grid-cols-6 gap-x-5'>
-        <div className='col-span-2'>
+      <div className='grid grid-cols-3 mobile:grid-cols-1 tablet:grid-cols-1 mobile:gap-y-3 tablet:gap-y-3 gap-x-5'>
+        <div>
           <h2 className='mb-3  text-xl font-bold dark:text-white'>Thêm mẫu câu</h2>
           <form
             onSubmit={handleCreateChat}
@@ -73,7 +73,7 @@ const Chats = () => {
                 <input
                   type='text'
                   id='text'
-                  className='border rounded p-2 w-full'
+                  className='border rounded p-2 w-full dark:text-black'
                   value={resultState}
                   onChange={(e) => setResultState(e.target.value)}
                 />
@@ -112,10 +112,10 @@ const Chats = () => {
                   </button>
                 </span>
               ))}
-              <div className='flex gap-x-2 items-center'>
+              <div className='flex gap-x-2 items-center justify-between'>
                 <input
                   type='text'
-                  className='border rounded p-2 w-[300px]'
+                  className='border rounded p-2 w-[300px] flex-1 dark:text-black'
                   value={chipState}
                   onChange={(e) => setChipState(e.target.value)}
                 />
@@ -141,9 +141,9 @@ const Chats = () => {
           </form>
         </div>
 
-        <div className='col-span-2 '>
+        <div>
           <h2 className='mb-3  text-xl font-bold dark:text-white'>Danh sách mẫu câu</h2>
-          <div className='max-h-[80vh] dark:bg-gray-700 overflow-auto custom-scrollbar border-pink-400 dark:border-none overflow-y-auto border rounded-md shadow-md p-3'>
+          <div className='max-h-[80vh] dark:bg-gray-700 custom-scrollbar border-pink-400 dark:border-none overflow-y-auto border rounded-md shadow-md p-3'>
             {chatHasResult?.map((item: ChatType, index: number) => (
               <ChatItem
                 key={item._id}
@@ -155,7 +155,7 @@ const Chats = () => {
             ))}
           </div>
         </div>
-        <div className='col-span-2'>
+        <div>
           <h2 className='mb-3  text-xl font-bold dark:text-white'>Danh sách câu hỏi</h2>
           <div className=' border-pink-400 dark:bg-gray-700 dark:border-none overflow-y-auto border rounded-md shadow-md p-3'>
             {chatNotResult.length === 0 && <span className='dark:text-text-color'>Chưa có câu hỏi mới nào!</span>}

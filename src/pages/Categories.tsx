@@ -34,7 +34,7 @@ const Categories = () => {
           <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
             <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
               <tr>
-                <th scope='col' className='px-6 py-3'>
+                <th scope='col' className='px-6 py-3 tablet:hidden'>
                   Id
                 </th>
                 <th scope='col' className='px-6 py-3'>
@@ -43,13 +43,11 @@ const Categories = () => {
                 <th scope='col' className='px-6 py-3'>
                   Hành động
                 </th>
-                <th scope='col' className=' py-3'>
-                  Danh mục con
-                </th>
+                <th scope='col' className=' py-3'></th>
               </tr>
             </thead>
             {isLoading && (
-              <div role='status' className='mx-auto'>
+              <div role='status' className='mx-auto flex justify-center mt-5'>
                 <svg
                   aria-hidden='true'
                   className='w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600'

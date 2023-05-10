@@ -8,7 +8,7 @@ const AdminLayout = ({ children }: Props) => {
     <div>
       <div className='flex dark:bg-gray-800'>
         <Header></Header>
-        <div className={`w-[100%]`}>{children}</div>
+        <div className={`w-[100%] tablet:h-[100vh] mobile:h-screen overflow-auto pb-10`}>{children}</div>
       </div>
     </div>
   )

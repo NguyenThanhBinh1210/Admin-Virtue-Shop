@@ -22,7 +22,7 @@ const DropdownMenu = ({ node, setParentCategory }: Props) => {
             {hasChildren && (
               <div className='mt-2 flex gap-x-2'>
                 {node.children.map((childNode: any) => (
-                  <DropdownMenu key={childNode._id} node={childNode} setParentCategory={setParentCategory} />
+                  <DropdownMenu key={childNode.id} node={childNode} setParentCategory={setParentCategory} />
                 ))}
               </div>
             )}

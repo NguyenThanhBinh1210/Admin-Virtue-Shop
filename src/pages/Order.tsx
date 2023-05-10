@@ -42,7 +42,7 @@ const Order = () => {
     <div className='p-5'>
       <h1 className='mb-3  text-2xl font-bold dark:text-white'>Danh sách đơn hàng</h1>
       <div className='flex flex-col gap-[30px] rounded-md'>
-        <div className='relative overflow-hidden rounded-md shadow-md sm:rounded-lg'>
+        <div className='relative overflow-x-auto rounded-md shadow-md sm:rounded-lg'>
           <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
             <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
               <tr>
@@ -66,7 +66,7 @@ const Order = () => {
                 </th>
               </tr>
             </thead>
-            {purchasesForAllUser?.length === 0 && <div>Khoong co san don hang nao</div>}
+            {purchasesForAllUser?.length === 0 && <div>Không có đơn hàng nào!</div>}
             {purchasesForAllUser && (
               <tbody className='overflow-hidden'>
                 {purchasesForAllUser.map((item: any) => (
@@ -100,10 +100,10 @@ const Order = () => {
                             <div className='flex gap-x-2 items-center mb-2'>
                               <img
                                 className='w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500'
-                                src={item.user.avatar}
+                                src={item.user?.avatar}
                                 alt='Bordered avatar'
                               />
-                              <h2 className='font-[600] text-[16px]'>{item.user.name}</h2>
+                              <h2 className='font-[600] text-[16px]'>{item.user?.name}</h2>
                             </div>
                             <div
                               className='flex flex-col
@@ -118,7 +118,7 @@ const Order = () => {
                         }
                         placement='bottom-start'
                       >
-                        <Link to={`/user-detail/${item.user._id}`}>{item.user.name}</Link>
+                        <Link to={`/user-detail/${item.user?._id}`}>{item.user?.name}</Link>
                       </Popover>
                     </th>
                     <td className='px-6 py-4'>{FormatNumber(item.product.price_after_discount * item.buy_count)}đ</td>
@@ -152,11 +152,11 @@ const Order = () => {
                     <td className={`px-6 py-4 ${item?.isPaid ? 'text-primary' : 'text-red-300'}`}>
                       {item?.isPaid === true ? (
                         <span className='bg-indigo-100 text-indigo-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-indigo-400 border border-indigo-400'>
-                          Đã thanh toán
+                          Rồi
                         </span>
                       ) : (
                         <span className='bg-pink-100 text-pink-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-pink-400 border border-pink-400'>
-                          Chưa thanh toán
+                          Chưa
                         </span>
                       )}
                     </td>

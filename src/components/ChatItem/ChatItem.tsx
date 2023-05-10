@@ -73,7 +73,6 @@ const ChatItem = ({ item }: Props) => {
       id: item._id,
       body: { ...dataResult, includes: newIncludes }
     }
-    console.log(data)
     updateResultMutation.mutate(data)
   }
   const handleRemove = () => {
@@ -104,11 +103,11 @@ const ChatItem = ({ item }: Props) => {
       </button>
 
       <div style={{ height }} ref={ref} className={`transition-height duration-300 ease-in-out  `}>
-        <div className={`flex gap-x-2 items-center my-2 ${show ? 'visible' : 'invisible'}`}>
+        <div className={`flex gap-x-2 items-center justify-between my-2 ${show ? 'visible' : 'invisible'}`}>
           <input
             type='text'
             placeholder='Nhập câu trả lời!'
-            className='border rounded p-2 w-[300px] dark:text-black'
+            className='border rounded p-2 flex-1 w-[300px] dark:text-black'
             value={dataResult.result}
             onChange={handleChange}
           />
@@ -150,11 +149,11 @@ const ChatItem = ({ item }: Props) => {
             </button>
           </span>
         ))}
-        <div className='flex gap-x-2 items-center my-2'>
+        <div className='flex gap-x-2 items-center my-2 justify-between'>
           <input
             type='text'
             placeholder='Thêm câu hỏi!'
-            className='border rounded p-2 w-[300px]'
+            className='border rounded p-2 flex-1 w-[300px]'
             value={chipState}
             onChange={(e) => setChip(e.target.value)}
           />

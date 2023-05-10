@@ -121,8 +121,8 @@ const Dashboard = () => {
   return (
     <div className='p-5 '>
       <h1 className='mb-3  text-2xl font-bold dark:text-white '>Dashboard</h1>
-      <div className='grid grid-cols-2 gap-x-10'>
-        <div className='grid grid-cols-2 grid-rows-2 gap-10'>
+      <div className='grid grid-cols-2 tablet:grid-cols-1 mobile:grid-cols-1 gap-x-10'>
+        <div className='grid grid-cols-2 grid-rows-2 gap-10 tablet:gap-5 mobile:gap-5 tablet:mb-10 mobile:mb-5'>
           {dataType.map((item) => (
             <div
               key={item.id}
@@ -140,12 +140,12 @@ const Dashboard = () => {
           <Chart></Chart>
         </div>
       </div>
-      <div className='grid grid-cols-5 gap-x-10 mt-5 dark:text-white font-bold text-[16px]'>
+      <div className='tablet:hidden mobile:hidden grid grid-cols-5 gap-x-10 mt-5 dark:text-white font-bold text-[16px]'>
         <div className='col-span-2'>Top người mua hàng</div>
         <div className='col-span-3'>Danh sách đơn hàng mới nhất</div>
       </div>
-      <div className='grid grid-cols-5 gap-x-10 mt-3 h-[251px]'>
-        <div className='border-pink-400 border dark:border-none col-span-2 custom-scrollbar rounded-md relative overflow-x-auto shadow-md sm:rounded-lg'>
+      <div className='grid grid-cols-5 tablet:gap-y-5 mobile:gap-y-5 tablet:grid-cols-1 mobile:grid-cols-1 tablet:gap-x-0 mobile:gap-x-0 gap-x-10 mt-3 h-[251px]'>
+        <div className='tablet:h-[200px] mobile:h-[200px] border-pink-400 border dark:border-none col-span-2 custom-scrollbar rounded-md relative overflow-x-auto shadow-md sm:rounded-lg'>
           <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
             <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
               <tr>
@@ -176,8 +176,7 @@ const Dashboard = () => {
             </tbody>
           </table>
         </div>
-
-        <div className='border-pink-400 border dark:border-none col-span-3 custom-scrollbar rounded-md relative overflow-x-auto shadow-md sm:rounded-lg'>
+        <div className='tablet:h-[300px] mobile:h-[300px] border-pink-400 border dark:border-none col-span-3 custom-scrollbar rounded-md relative overflow-x-auto shadow-md sm:rounded-lg'>
           <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
             <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
               <tr>
@@ -206,7 +205,7 @@ const Dashboard = () => {
                   </th>
                   <td className='px-6 py-4'>{order?.user?.name}</td>
                   <td className='px-6 py-4'>{FormatNumber(order.product.price_after_discount * order.buy_count)}đ</td>
-                  <td className='px-6 py-4'>
+                  <td className='px-6 py-4 tablet:p-0 mobile:p-0'>
                     {order?.status === 1 && (
                       <span className='bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300'>
                         Chờ xác nhận
@@ -219,7 +218,7 @@ const Dashboard = () => {
                     )}
                     {order?.status === 2 && (
                       <span className='bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300'>
-                        Đang gửi hàng
+                        Đang gửi
                       </span>
                     )}
                     {order?.status === 4 && (

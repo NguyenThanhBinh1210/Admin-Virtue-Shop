@@ -114,11 +114,11 @@ const CategoryAdd = () => {
         </div>
         <div>
           <h2 className='mb-2'>Danh sách danh mục cha</h2>
-          <div className='grid grid-cols-4 gap-y-3 gap-x-40 mb-10'>
+          <div className='grid grid-cols-4 gap-y-3 gap-x-40 tablet:gap-x-10 mb-10 tablet:grid-cols-3'>
             {categories?.data.data
               .filter((item: any) => item.id !== id)
               .map((node: any) => (
-                <DropdownMenu key={node._id} node={node} setParentCategory={setParentCategory} />
+                <DropdownMenu key={node.id} node={node} setParentCategory={setParentCategory} />
               ))}
           </div>
         </div>

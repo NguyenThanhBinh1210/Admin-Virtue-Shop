@@ -20,7 +20,7 @@ const Header = () => {
       return getChatResults()
     }
   })
-  const dataNotResult = data?.data.data.filter((item: ChatType) => !item.result).length
+  const number = data?.data.data.filter((item: ChatType) => !item.result).length
   const logOutMutation = useMutation({
     mutationFn: logout,
     onSuccess: () => {
@@ -37,16 +37,18 @@ const Header = () => {
     <div
       id='drawer-navigation'
       className={`${
-        !showMenu ? 'p-[16px] w-[260px] ' : 'p-[0px] w-[0px]'
-      } dark:bg-gray-700  non-scroll dark:border-none border-r border-gray-300 top-0 relative left-0 z-40 h-screen p-4  transition-all  bg-white w-80 `}
+        showMenu ? 'mobile:translate-x-[0] ' : 'mobile:translate-x-[-100%] '
+      } dark:bg-gray-700 mobile:fixed non-scroll dark:border-none border-r border-gray-300 top-0 relative left-0 z-40 h-screen p-4  transition-all  bg-white w-80 `}
       tabIndex={-1}
       aria-labelledby='drawer-navigation-label'
     >
       <div
         id='drawer-navigation-label'
-        className={` ${showMenu ? 'hidden' : ''} text-blue-400 text-base font-semibold uppercase dark:text-gray-400 `}
+        className={` ${
+          showMenu ? 'hidden' : ''
+        } text-blue-400 flex justify-between items-center text-base font-semibold uppercase dark:text-gray-400 `}
       >
-        Virtue Shop Admin
+        <h2>Virtue Shop Admin</h2>
       </div>
       <div className='py-4 overflow-y-auto flex flex-col justify-between h-[90%]'>
         <ul className='space-y-2'>
@@ -65,7 +67,9 @@ const Header = () => {
                 <path d='M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z' />
                 <path d='M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z' />
               </svg>
-              <span className='ml-3'>Dashboard</span>
+              <span className='ml-3'>
+                <button onClick={() => setShowMenu(false)}>Dashboard</button>
+              </span>
             </Link>
           </li>
           <li>
@@ -114,7 +118,7 @@ const Header = () => {
                   to='/category/add'
                   className='flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700'
                 >
-                  Tạo mới
+                  <button onClick={() => setShowMenu(false)}>Tạo mới</button>
                 </Link>
               </li>
               <li>
@@ -122,7 +126,7 @@ const Header = () => {
                   to='/category/list'
                   className='flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700'
                 >
-                  Danh sách
+                  <button onClick={() => setShowMenu(false)}>Danh sách</button>
                 </Link>
               </li>
             </ul>
@@ -173,7 +177,7 @@ const Header = () => {
                   to='/product/add'
                   className='flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700'
                 >
-                  Tạo mới
+                  <button onClick={() => setShowMenu(false)}>Tạo mới</button>
                 </Link>
               </li>
               <li>
@@ -181,7 +185,7 @@ const Header = () => {
                   to='/product/list'
                   className='flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700'
                 >
-                  Danh sách
+                  <button onClick={() => setShowMenu(false)}>Danh sách</button>
                 </Link>
               </li>
             </ul>
@@ -201,9 +205,11 @@ const Header = () => {
                 <path d='M8.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L11 7.586V3a1 1 0 10-2 0v4.586l-.293-.293z' />
                 <path d='M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z' />
               </svg>
-              <span className='flex-1 ml-3 whitespace-nowrap'>Inbox</span>
+              <span className='flex-1 ml-3 whitespace-nowrap'>
+                <button onClick={() => setShowMenu(false)}>Inbox</button>
+              </span>
               <span className='inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300'>
-                {dataNotResult}
+                {number}
               </span>
             </Link>
           </li>
@@ -221,7 +227,9 @@ const Header = () => {
               >
                 <path fillRule='evenodd' d='M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z' clipRule='evenodd' />
               </svg>
-              <span className='flex-1 ml-3 whitespace-nowrap'>Quản lý tài khoản</span>
+              <span className='flex-1 ml-3 whitespace-nowrap'>
+                <button onClick={() => setShowMenu(false)}>Quản lý tài khoản</button>
+              </span>
             </Link>
           </li>
           <li>
@@ -242,7 +250,10 @@ const Header = () => {
                   clipRule='evenodd'
                 />
               </svg>
-              <span className='flex-1 ml-3 whitespace-nowrap'>Quản lý đơn hàng</span>
+
+              <span className='flex-1 ml-3 whitespace-nowrap'>
+                <button onClick={() => setShowMenu(false)}>Quản lý đơn hàng</button>
+              </span>
             </Link>
           </li>
         </ul>
@@ -299,9 +310,9 @@ const Header = () => {
       <button
         type='button'
         onClick={() => setShowMenu(!showMenu)}
-        className='absolute right-[-100px] bottom-[20px] text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700'
+        className='absolute mobile:block hidden right-[-100px] bottom-[20px] text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700'
       >
-        {showMenu ? 'Menu' : 'Đóng'}
+        {!showMenu ? 'Menu' : 'Đóng'}
       </button>
     </div>
   )
