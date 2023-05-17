@@ -8,6 +8,7 @@ import { getCategories } from '~/apis/category.api'
 import { Product } from '~/types/product.type'
 import FormData from 'form-data'
 import axios from 'axios'
+import InputNumber from '~/components/InputNumber/InputNumber'
 
 export type FormStateType = Omit<Product, '_id' | 'createdAt' | 'updatedAt'>
 const ProductAdd = () => {
@@ -18,14 +19,14 @@ const ProductAdd = () => {
   const queryClient = useQueryClient()
   const initialFromState: FormStateType = {
     name: '',
-    price: 0,
+    price: '',
     category: {
       _id: '',
       name: ''
     },
-    countInStock: 0,
+    countInStock: '',
     description: '',
-    discount: 0,
+    discount: '',
     image: [],
     images: [],
     price_after_discount: 0
@@ -213,25 +214,34 @@ const ProductAdd = () => {
             <label htmlFor='price' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
               Giá
             </label>
-            <input
-              type='number'
-              id='price'
+            <InputNumber
+              placeholder='vnđ'
+              classNameInput='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
               onChange={(event) =>
                 setFormState((prev) => {
                   return { ...prev, price: Number(event.target.value) }
                 })
               }
               value={formState.price}
-              className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-              placeholder='vnđ'
-              required
-            />
+              required={true}
+            ></InputNumber>
           </div>
           <div>
             <label htmlFor='countInStock' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
               Số lượng
             </label>
-            <input
+            <InputNumber
+              placeholder='cái/ chiếc'
+              classNameInput='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              onChange={(event) =>
+                setFormState((prev) => {
+                  return { ...prev, countInStock: Number(event.target.value) }
+                })
+              }
+              value={formState.countInStock}
+              required={true}
+            ></InputNumber>
+            {/* <input
               type='number'
               id='countInStock'
               onChange={(event) =>
@@ -241,9 +251,9 @@ const ProductAdd = () => {
               }
               value={formState.countInStock}
               className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-              placeholder='cái'
+              placeholder='cái/ chiếc'
               required
-            />
+            /> */}
           </div>
         </div>
         <div>

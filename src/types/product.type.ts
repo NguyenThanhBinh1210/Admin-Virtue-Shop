@@ -4,15 +4,15 @@ export interface Product {
   name: string
   image: string[]
   images: string[]
-  price: number
+  price: number | string
   price_after_discount: number
-  countInStock: number
+  countInStock: number | string
   rating?: number
   description?: string
   _id: string
   selled?: number
   category: Category
-  discount: number
+  discount: number | string
   createdAt: string
   updatedAt: string
 }
